@@ -1,0 +1,63 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "color-transform@file:color-transform",
+        "scope": null,
+        "escapedName": "color-transform",
+        "name": "color-transform",
+        "rawSpec": "file:color-transform",
+        "spec": "E:\\WorkSpace\\SQ1\\Print-Builder-APR\\color-transform",
+        "type": "directory"
+      },
+      "E:\\WorkSpace\\SQ1\\Print-Builder-APR"
+    ]
+  ],
+  "_from": "color-transform",
+  "_id": "color-transform@1.0.0",
+  "_inCache": true,
+  "_location": "/color-transform",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "color-transform@file:color-transform",
+    "scope": null,
+    "escapedName": "color-transform",
+    "name": "color-transform",
+    "rawSpec": "file:color-transform",
+    "spec": "E:\\WorkSpace\\SQ1\\Print-Builder-APR\\color-transform",
+    "type": "directory"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "file:color-transform",
+  "_shasum": "c5d581839dcd8796ac6bdd19d61b7698828d3c4d",
+  "_shrinkwrap": null,
+  "_spec": "color-transform@file:color-transform",
+  "_where": "E:\\WorkSpace\\SQ1\\Print-Builder-APR",
+  "author": {
+    "name": "Legendary Assassin"
+  },
+  "dependencies": {
+    "bl": "^0.9.3",
+    "pixel-stream": "^1.0.3"
+  },
+  "description": "Color Transform",
+  "devDependencies": {
+    "mocha": "^2.0.1"
+  },
+  "keywords": [
+    "color transform",
+    "cmyk"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "color-transform",
+  "optionalDependencies": {},
+  "readme": "# color-transform\n\nStreaming image color space transforms\n\n## Installation\n\n    npm install color-transform\n\n## Example\n\n```javascript\nvar ColorTransform = require('color-transform');\n\n// Convert a buffer (list of supported transforms below)\nvar rgb = ColorTransform.cmyk2rgb(new Buffer([ 0, 56, 128, 32 ]))\n// => new Buffer([ 1, 13, 20 ])\n\n// Streaming example. Converts a CMYK JPEG to an RGB PNG\nfs.createReadStream('cmyk.jpg')\n  .pipe(new JPEGDecoder)\n  .pipe(new ColorTransform('rgb'))\n  .pipe(new PNGEncoder)\n  .pipe(fs.createWriteStream('out.png'));\n```\n\n## Supported color spaces\n\n`color-transform` supports transforms between the following color spaces.\nThe only exception is CMYK, which is currently only supported in one direction -\nyou can convert from CMYK to any of the other color spaces, but not to CMYK.\n\n* `'rgb'` - standard RGB\n* `'rgba'` - RGB with alpha\n* `'gray'` - grayspace\n* `'graya'` - grayspace with alpha\n* `'cmyk'` - CMYK\n\n## API\n\nYou can call the conversion functions directly with a buffer to convert, as \nshown in the example. The functions are named by joining the two color spaces\nwith a `2`, such as `rgb2gray`, and `cmyk2rgb`.\n\nYou can also use the streaming API, which is a [pixel-stream](https://github.com/devongovett/pixel-stream).\nThe constructor accepts two parameters: source color space, and destination color space.\nIf you pipe another pixel-stream into `color-transform`, the source color space is optional\nin the constructor since it will be learned from the source stream.\n\nYou don't need to worry about writing to the stream in whole pixel chunks. The ColorTransform stream\nwill automatically buffer if there is a chunk boundary in the middle of a pixel.\n\n```javascript\n// create a stream that converts from cmyk to rgb\nvar s = new ColorTransform('cmyk', 'rgb');\n\n// pipe a stream that happens to be cmyk to an rgb color transform.\nfs.createReadStream('cmyk.jpg')\n  .pipe(new JPEGDecoder)\n  .pipe(new ColorTransform('rgb'))\n  // ...\n```\n\n## License\n\nMIT\n",
+  "readmeFilename": "README.md",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
